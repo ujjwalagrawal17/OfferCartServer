@@ -1,0 +1,71 @@
+<!DOCTYPE HTML> 
+<html> 
+<head> 
+<title>Notification-Panel</title> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+	function submitForm()
+	{
+		var form = document.getElementById("myForm");
+		form.reset();
+	}
+	function required()  
+{  
+var empt = document.forms["myForm"]["message"].value; 
+if (empt == "")  
+{  
+alert("Message cannot be empty");  
+return false;  
+}  
+else   
+{  
+	return true;   
+}  
+}  
+</script>
+</head> 
+<center>
+<body id="body-color"> 
+<div id="Notification-Panel"> 
+<fieldset style="width:30%">
+<legend>
+Enter Notification Details
+</legend> 
+<form method="POST" action="#" autocomplete="off" name="myForm" onsubmit="required()"> 
+ {% csrf_token %}
+Message description: <br><textarea rows="4" cols="50" name="message">
+</textarea>
+<select name="city" id="city-list" onchange="getState(this.value);">
+	<option value="">Select City</option>
+	{% for city_data in cities_data %}
+	<option value="{{city_data.id}}">{{city_data.name}}</option>
+	{% endfor %}
+</select>
+<select name="shops" id="shops-list">
+<option value="">Select Shops</option>
+</select>
+<br>
+<br>
+<input id="button" type="submit" name="submit" value="Send" onclick="submitForm()"> 
+</form> 
+</fieldset> 
+</div> 
+<script>
+	function getState(val) {
+	$.ajax({
+	type: "POST",
+	url: "/send_shops/",
+	data:'city_id='+val,
+	success: function(data){
+		 var $el = $("#shops-list");
+                    $el.empty(); // remove old options
+                  	$.each(data.shop_data, function(index, obj){
+                $("#shops-list").append('<option value='+obj.shop_id+'>'+obj.shop_name+'</option>');
+            });			
+	}
+});
+}
+</script>
+</body> 
+</center>
+</html>
