@@ -73,7 +73,7 @@ def verify_otp(request):
         otp_list = OtpData.objects.get(mobile=mobile)
         if otp_list.otp == int(otp):
             setattr(otp_list, 'flag', True)
-            access_token = jwt.encode({'mobile': str(mobile)}, '999123', algorithm='HS256')
+            access_token = jwt.encode({'mobile': str(mobile)}, '810810', algorithm='HS256')
             otp_list.save()
             response_json['access_token'] = str(access_token)
             print('Access Token Created')

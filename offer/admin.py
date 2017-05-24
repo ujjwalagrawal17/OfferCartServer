@@ -5,7 +5,7 @@ from .models import *
 
 class OfferDataAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "active", "shop_id", "validity", "image", "description", "created",
-                    "modified", "price"]
+                    "modified"]
 
 
 admin.site.register(OfferData, OfferDataAdmin)
